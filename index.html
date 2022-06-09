@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPM | Alat Pengingat Memasukkan Motor</title>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" name="" id="menu-toggle">
+    <div class="overlay">
+        <label for="menu-toggle">
+        </label>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-container">
+            <div class="brand">
+                <div>
+                    <img src="img/2.png" alt="">
+                </div>
+                <div class="brand-info">
+                    <div>
+                        <h2>Motor</h2>
+                        <h2>Safety.</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="" class="active">
+                            <span class="las la-adjust"></span>
+                            <span>APPM</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="header-title-wrapper">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                <div class="header-title">
+                    <h1>Alat Pengingat Memasukkan Motor</h1>
+                    <p>Data motor yang parkir di dalam.</p>
+                </div>
+            </div>
+            <div class="header-action">
+            </div>
+        </header>
+        <section>
+            <div class="block-grid">
+                <div class="monitor-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Client 1</td>
+                                <td class="px-4">
+                                    <button
+                                    class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-dark capitalize rounded-md"
+                                    v-bind:class="{ 'bg-green-600':data1.toggle1, 'bg-gray-300': !data1.toggle1}">{{ data1.status }}</button>
+                                </td>
+                                <td>    
+                                    <button @click="sampahDiambil" 
+                                    id ="disc" class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-white capitalize rounded-md"
+                                    v-bind:class="{ 'bg-red-600': data1.toggle1, 'bg-gray-300': !data1.toggle1, 'hover:bg-red-500': data1.toggle1 }">X</button></td>
+                            </tr>
+                            <tr>
+                                <td>Client 2</td>
+                                <td class="px-4">
+                                    <button
+                                    class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-dark capitalize rounded-md"
+                                    v-bind:class="{ 'bg-green-600':data.toggle1, 'bg-gray-300': !data.toggle1}">Disconnected</button>
+                                </td>
+                                <td>    
+                                    <button @click="sampahDiambil" 
+                                    id ="disc" class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-white capitalize rounded-md"
+                                    v-bind:class="{ 'bg-red-600': data.toggle1, 'bg-gray-300': !data.toggle1, 'hover:bg-red-500': data.toggle1 }">X</button></td>
+                            </tr>
+                            <tr>
+                                <td>Client 3</td>
+                                <td class="px-4">
+                                    <button
+                                    class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-dark capitalize rounded-md"
+                                    v-bind:class="{ 'bg-green-600':data.toggle1, 'bg-gray-300': !data.toggle1}">Disconnected</button>
+                                </td>
+                                <td>    
+                                    <button @click="sampahDiambil" 
+                                    id ="disc" class="px-4 py-2 md:text-sm text-center lg:text-md font-medium text-white capitalize rounded-md"
+                                    v-bind:class="{ 'bg-red-600': data.toggle1, 'bg-gray-300': !data.toggle1, 'hover:bg-red-500': data.toggle1 }">X</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+    </div>
+    
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data () {
+                return {
+                    toggle1: false, //false = gk connected
+                    status: null,
+                    data:{},
+                    data1:{},
+                    selectedId: 1
+                }
+            },
+            mounted () {
+                // get data every 100ms
+                const BOT_TOKEN = "5538015945:AAGt-YDd1kFEngYlKIdLRw9ewIwXI1s9_QA"
+                const CHAT_ID = "1034999389"
+                async function sendMessage(message) {
+                    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`
+                    const params = { chat_id: CHAT_ID, text: message }
+                    await axios.get(url, { params: params })
+                };
+                
+
+                this.interval = setInterval(() => {
+                    axios
+                    .get('https://api.thingspeak.com/channels/1761339/feeds.json?api_key=980O4S5TG7979DXL&results=2')
+                    .then(response => (
+                        data = response.data.feeds,
+                        latest =  data[data.length-1],
+                        this.data1={
+                            status: latest.field1,
+                            toggle1: latest.field1 == 'connected' ? true : false
+                        }
+                    ))
+                }, 100 );
+            },
+            methods: {
+                sampahDiambil(){
+                    const BOT_TOKEN = "5538015945:AAGt-YDd1kFEngYlKIdLRw9ewIwXI1s9_QA"
+                    const CHAT_ID = "1034999389"
+                    async function sendMessage(message) {
+                        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`
+                        const params = { chat_id: CHAT_ID, text: message }
+                        await axios.get(url, { params: params })
+                    }
+                   if (!this.toggle1 && this.data1.status == 'connected') {
+                        axios
+                        .post('https://api.thingspeak.com/update?api_key=GXRZG72MP6EQXO3A&field1=Disconnected')
+                        .then(response => (
+                            console.log(response),
+                            sendMessage("The connection has been disconnected")
+                        ))     
+                   }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
